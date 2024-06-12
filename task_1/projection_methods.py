@@ -13,36 +13,35 @@ def run_ritz_method(k, n):
     matrix_a = np.zeros((n, n))
     vector_b = np.zeros((n, 1))
 
-    var_x = sympy.symbols('x')
+    x = sympy.symbols('x')
     # Определяем функцию f(x)
-    f = 2 - var_x
+    f = 2 - x
 
     # 1) Вычисляем произведение f(x) на одну из координатных функций
     # 2) Вычисляем значение интеграла от h на [-1,1] (элементы вектора правой части)
     for i in range(3):
         h = f * phis[i]
-        vector_b[i] = sympy.integrals.integrate(h, (var_x, -1, 1))
+        vector_b[i] = sympy.integrals.integrate(h, (x, -1, 1))
 
     # Задаем значения узлов и соответствующие веса для формулы Гаусса
     x1 = 1 / 3 * (5 - 2 * (10 / 7) ** 0.5) ** 0.5
     x2 = 1 / 3 * (5 + 2 * (10 / 7) ** 0.5) ** 0.5
+    x_i = [-x2, -x1, 0, x1, x2]
     c1 = (322 + 13 * 70 ** 0.5) / 900
     c2 = (322 - 13 * 70 ** 0.5) / 900
-    x_i = [-x2, -x1, 0, x1, x2]
     c_i = [c2, c1, 128 / 225, c1, c2]
 
     # Вычисляем значения координатных функция и их производных в этом узле
-    phis_values, d_phis_values, dd_phis_values = get_coordinate_func_values(k, n, x_i)
+    phis_values, d_phis_values, _ = get_coordinate_func_values(k, n, x_i)
 
     # Вычисление интеграла по формуле Гаусса
-    def find_gauss_integral(nodes, coefs, i, j):
+    def find_gauss_integral(nodes, g_coefs, i, j):
         s = 0
         # Перебираем все узлы формулы Гаусса
         for k in range(len(nodes)):
             tmp_1 = (((nodes[k] + 4) / (nodes[k] + 5)) * d_phis_values[k][j] * d_phis_values[k][i] + np.exp(
-                nodes[k] ** 4 / 4) *
-                     phis_values[k][i] * phis_values[k][j])
-            s += coefs[k] * tmp_1
+                nodes[k] ** 4 / 4) * phis_values[k][i] * phis_values[k][j])
+            s += g_coefs[k] * tmp_1
         return s
 
     for i in range(n):
@@ -50,8 +49,8 @@ def run_ritz_method(k, n):
             matrix_a[i][j] = find_gauss_integral(x_i, c_i, i, j)
 
     # Вычисляем коэффициенты для решения методом Ритца
-    coeffs = np.linalg.solve(matrix_a, vector_b)
-    return coeffs, matrix_a, vector_b
+    ritz_coefs = np.linalg.solve(matrix_a, vector_b)
+    return ritz_coefs, matrix_a, vector_b
 
 
 def run_collocation_method(k, n):

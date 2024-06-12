@@ -17,8 +17,8 @@ def get_jacobi_poly(k, n):
 
 
 # Строит массив значение многочленов Якоби в точке y
-def get_jacobi_poly_values(func, y):
-    vals = [float(substitute_if_expr(p, y)) for p in func]
+def get_jacobi_poly_values(functions, y):
+    vals = [float(substitute_if_expr(p, y)) for p in functions]
     return vals
 
 
