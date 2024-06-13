@@ -1,11 +1,11 @@
 import numpy as np
 import pandas as pd
-from scipy.special import jacobi
 from numpy.linalg import eig
 
 import matplotlib.pyplot as plt
 
-from task_2.eigen_val_vec import eigen_vec, find_eigen_val, deigen_vec, ddeigen_vec
+from task_2.eigen_val_vec import eigen_vec, find_eigen_val, deigen_vec, ddeigen_vec, coordinate_func, eig_vec_r, \
+    d_coordinate_func, reverse_iterations_method
 from task_2.func_operations import find_energy_scalar_product, find_l2_scalar_product
 from task_2.math_functions import p, q
 from task_2.fields import *
@@ -20,15 +20,6 @@ p_max = np.max(p(np.linspace(x0, x1, 1000)))
 # Вычисляем min и max функции q(x), построив массив значений q(x)
 q_min = np.min(q(np.linspace(x0, x1, 1000)))
 q_max = np.max(q(np.linspace(x0, x1, 1000)))
-
-
-# Используем jacobi для вычисления полиномов Якоби (нужны для создания базисных функций)
-# Вычисляем базисные функции и нормируем их
-def coordinate_func(k):
-    fun = lambda x: (1-((2*x-x0-x1)/(x1-x0))**2)*jacobi(k, 2, 2)((2*x-x0-x1)/(x1-x0))
-    c = np.sqrt(find_l2_scalar_product(fun, fun))
-    return lambda x: fun(x)/c
-
 
 
 for i in range(2):
@@ -72,26 +63,11 @@ print(f'Второе собственное число {find_energy_scalar_produ
 # Метод Ритца
 
 
-
-
-
-# Вычисляем производные базисных функций и нормируем их
-# Если k=0, используем формулу для вычисления производной базисной функции 1-го порядка
-# Иначе 2-го порядка
-def dbasic_func(k):
-    fun = lambda x: (1-((2*x-x0-x1)/(x1-x0))**2)*jacobi(k, 2, 2)((2*x-x0-x1)/(x1-x0))
-    c = np.sqrt(find_l2_scalar_product(fun, fun))
-    if k == 0:
-        return lambda x: (-4*(2*x-x0-x1)/(x1-x0)**2*jacobi(k, 2, 2)((2*x-x0-x1)/(x1-x0)))/c
-    return lambda x: (-4*(2*x-x0-x1)/(x1-x0)**2*jacobi(k, 2, 2)((2*x-x0-x1)/(x1-x0)) +
-                      2/(x1-x0)*(1-((2*x-x0-x1)/(x1-x0))**2) * (k+5)/2*jacobi(k-1, 3, 3)((2*x-x0-x1)/(x1-x0)))/c
-
-
 # Создаем матрицу Галеркина и вычисляем ее элементы
 G_l = np.zeros((N, N))
 for i in range(N):
     for j in range(N):
-        G_l[i, j] = find_energy_scalar_product(coordinate_func(i), coordinate_func(j), dbasic_func(i), dbasic_func(j))
+        G_l[i, j] = find_energy_scalar_product(coordinate_func(i), coordinate_func(j), d_coordinate_func(i), d_coordinate_func(j))
 
 
 # Вычисляем СЗ и СВ матрицы
@@ -110,50 +86,14 @@ print(f'Первое собственное число {vals[0]}')
 print(f'Второе собственное число {vals[1]}')
 
 
-# Создаем СФ на основе полученных в методе Галеркина коэффициентов
-def eig_vec_r(n, coef):
-    fun = lambda x: sum([coordinate_func(i)(x) * coef[i] for i in range(n)])
-    return lambda x: fun(x)
-
-
 for i in range(2):
     plt.plot(x, eig_vec_r(N, vecs[:, i])(x), label=f'Собственная функция {i+1}')
 plt.legend()
 plt.show()
 
 
-# Метод минимальных невязок для поиска минимального СЗ и соответствующего СВ матрицы Гамма
-def scalar_product_method(Gamma_L, epsilon=1e-4):
-    # Получаем размерность матрицы Гамма
-    n = Gamma_L.shape[0]
-    # Генерируем случайный начальный вектор z
-    z = np.random.rand(n)
-    # Нормируем вектор z
-    z /= np.linalg.norm(z)
-
-    while True:
-        # Решаем систему линейных уравнений Гамма для нахождения нового вектора
-        z_new = np.linalg.solve(Gamma_L, z)
-
-        # Вычисляем норму нового вектора и нормируем его
-        z_new_norm = np.linalg.norm(z_new)
-        z_new /= z_new_norm
-
-        # Если разница между предыдущим и новым векторами меньше эпсилон, то завершаем цикл
-        if np.linalg.norm(z_new - z) < epsilon:
-            break
-
-        # Обновляем вектор z
-        z = z_new
-
-    # Вычисляем min СЗ
-    lambda_min = np.dot(z, np.dot(Gamma_L, z)) / np.dot(z, z)
-    # Возвращаем min СЗ и соответствующий СВ
-    return lambda_min, z
-
-
 # Задаем min СЗ матрицы Галеркина и соответствующий СВ
-lambd, coefs = scalar_product_method(G_l)
+lambd, coefs = reverse_iterations_method(G_l)
 
 plt.plot(x, sum([coordinate_func(i)(x) * coefs[i] for i in range(N)]), label=f'Собственная функция')
 plt.legend()
@@ -171,8 +111,8 @@ def table(Nn):
         G_l = np.zeros((N, N))
         for i in range(N):
             for j in range(N):
-                G_l[i, j] = find_energy_scalar_product(coordinate_func(i), coordinate_func(j), dbasic_func(i), dbasic_func(j))
-        lambd, coefs = scalar_product_method(G_l)
+                G_l[i, j] = find_energy_scalar_product(coordinate_func(i), coordinate_func(j), d_coordinate_func(i), d_coordinate_func(j))
+        lambd, coefs = reverse_iterations_method(G_l)
         lambd_list.append(lambd)
         lambd_loss.append(lambd-vals[0])
     df['lambda_1^{(n)}'] = lambd_list
