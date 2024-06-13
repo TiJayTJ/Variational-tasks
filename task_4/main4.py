@@ -1,5 +1,7 @@
+import numpy as np
 import matplotlib.pyplot as plt
 
+from task_4.math_functions import f
 from task_4.schemes import *
 
 
@@ -20,8 +22,11 @@ def surface_drawing(t, x, sol):
 
 # Явная схема
 
+
+# Устойчивый случай
+
 a = 1
-T = 1
+T = 0.1
 N = M = 100
 h = tau = 1 / N
 c = 1.0
@@ -38,7 +43,10 @@ t = np.linspace(0, T, M + 1)
 u = explicit_scheme(f, c, tau, h, N, M, x, t)
 
 surface_drawing(t, x, u)
-plt.plot(x, u[6].T)
+plt.plot(x, u[40].T)
+
+
+# Неустойчивый случай
 
 a = 1
 T = 1
@@ -48,7 +56,7 @@ h = 1 / N
 tau = 1 / M
 c = 1.0
 
-if c * tau / h <= 1:
+if (c * tau / h <= 1):
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -64,6 +72,7 @@ plt.plot(x, u[6].T)
 
 
 # Чисто неявная схема
+# (всегда устойчива)
 
 a = 10
 T = 3
@@ -85,6 +94,9 @@ plt.plot(x, sol[15].T)
 
 # Неявная схема
 
+
+# Неустойчивый случай
+
 a = 10
 T = 3
 N = 200
@@ -93,7 +105,7 @@ h = a / N
 tau = T / K
 c = 1.0
 
-if c * tau / h >= 1:
+if (c * tau / h >= 1):
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -107,6 +119,7 @@ sol = implicit_scheme(f, c, tau, h, N, K, x, t)
 surface_drawing(t, x, sol)
 plt.plot(x, sol[6].T)
 
+# Устойчивый случай
 
 a = 10
 T = 3
@@ -116,7 +129,7 @@ h = a / N
 tau = T / K
 c = 1.0
 
-if c * tau / h >= 1:
+if (c * tau / h >= 1):
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -132,6 +145,8 @@ plt.plot(x, sol[8].T)
 
 
 # Симметричная схема
+# (всегда устойчива)
+
 
 a = 10
 T = 3
@@ -147,4 +162,4 @@ t = np.linspace(0, T, K + 1)
 sol = symmetric_scheme(f, c, tau, h, N, K, x, t)
 
 surface_drawing(t, x, sol)
-plt.plot(x, sol[100].T)
+plt.plot(x, sol[15].T)
