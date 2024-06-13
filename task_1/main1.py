@@ -1,5 +1,4 @@
 import numpy as np
-import sympy
 import pandas as pd
 
 from task_1.maths import get_coordinate_func_values
@@ -46,7 +45,7 @@ def make_table(values):
 
 
 print("Проекционные методы решения краевой задачи для обыкновенного дифференциального уравнения второго порядка")
-print("Вариант 15")
+print("Вариант 15\n")
 
 # Строим таблицу результатов для метода Ритца
 dots = [-0.5, 0.0, 0.5]
@@ -63,6 +62,7 @@ print("Число обусловленности матрицы А = ", np.linal
 print("b = ", b)
 print("Коэффициенты разложения приближенного решения по координатным функциям:\n", coefficients)
 print(result_table)
+print()
 
 # Строим таблицу результатов для метода коллокации
 dots = [-0.5, 0.0, 0.5]

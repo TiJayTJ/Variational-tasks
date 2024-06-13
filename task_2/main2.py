@@ -4,14 +4,13 @@ from numpy.linalg import eig
 
 import matplotlib.pyplot as plt
 
-from task_2.eigen_val_vec import eigen_vec, find_eigen_val, deigen_vec, ddeigen_vec, coordinate_func, eig_vec_r, \
-    d_coordinate_func, reverse_iterations_method
-from task_2.func_operations import find_energy_scalar_product, find_l2_scalar_product
+from task_2.eigen_val_vec import *
+from task_2.func_operations import find_energy_scalar_product, find_scalar_product
 from task_2.math_functions import p, q
 from task_2.fields import *
 
 print("Проблема собственных значений в задаче Штурма-Лиувилля")
-print("Вариант 4")
+print("Вариант 4\n")
 
 
 # Вычисление собственного числа и вектора по формуле
@@ -60,11 +59,11 @@ print(df_mm)
 
 # Вычисляем собственные числа через "точные" собственные функции
 print(f'Первое точное собственное число {find_energy_scalar_product(eigen_vec(1), eigen_vec(1), 
-                                                             deigen_vec(1), deigen_vec(1)) / 
-                                  find_l2_scalar_product(eigen_vec(1), eigen_vec(1))}')
+                                         deigen_vec(1), deigen_vec(1)) / find_scalar_product(eigen_vec(1),
+                                                                                             eigen_vec(1))}')
 print(f'Второе точное собственное число {find_energy_scalar_product(eigen_vec(2), eigen_vec(2),
-                                                             deigen_vec(2), deigen_vec(2)) / 
-                                  find_l2_scalar_product(eigen_vec(2), eigen_vec(2))}')
+                                         deigen_vec(2), deigen_vec(2)) / find_scalar_product(eigen_vec(2),
+                                                                                             eigen_vec(2))}')
 
 
 # Метод Ритца

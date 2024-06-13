@@ -30,7 +30,7 @@ def pure_implicit_scheme(f, c, tau, h, n, k, x, t):
         for j in range(1, n + 1):
             b[j] = sol[i - 1, j] + tau * f(x[j], t[i - 1])
 
-        sol[i, 1 : ] = np.linalg.solve(A, b[1 : ])
+        sol[i, 1:] = np.linalg.solve(A, b[1:])
 
     return sol
 

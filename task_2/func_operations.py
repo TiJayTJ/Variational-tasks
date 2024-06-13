@@ -26,7 +26,7 @@ def find_l2_norm_integral(vec, dx):
 
 
 # Вычисляем скалярное произведение f1(x) и f2(x) на [x_0, x_1], используя quad для численного интегрирования
-def find_l2_scalar_product(f1, f2):
+def find_scalar_product(f1, f2):
     return integrate.quad(lambda x: f1(x)*f2(x), x0, x1)[0]
 
 

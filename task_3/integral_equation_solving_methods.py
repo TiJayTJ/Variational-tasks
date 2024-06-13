@@ -2,7 +2,7 @@ import math
 import numpy as np
 from numpy.linalg import solve
 
-from task_3.func_operations import dotL2
+from task_3.func_operations import find_scalar_product
 from task_3.fields import *
 
 # Метод замены ядра
@@ -23,10 +23,10 @@ def singular_kernel(N):
     # Заполняем матрицу A и вектор b
     for i in range(N):
         for j in range(N):
-            A[i, j] = delta(i, j) - lambd * dotL2(Bn[i], An[j])
+            A[i, j] = delta(i, j) - lambd * find_scalar_product(Bn[i], An[j])
 
     for i in range(N):
-        b[i] = dotL2(Bn[i], f)
+        b[i] = find_scalar_product(Bn[i], f)
 
     # Решаем систему линейных уравнений, где an - вектор коэффициентов аппроксимации An(x)
     cn = np.linalg.solve(A, b)
@@ -36,14 +36,14 @@ def singular_kernel(N):
     u = lambda x: f(x) + lambd * sum([cn[i] * An[i](x) for i in range(N)])
 
     # Создаем массив точек на [0,1] для оценки u(x)
-    x = np.linspace(0, 1, 1000)
+    x  = np.linspace(0, 1, 1000)
 
     # Вычисляем невязку между левой и правой частью уравнению для найденного приближенного решения u(x)
     def loss(u):
-        left_side = lambda x: u(x) - lambd * dotL2(lambda y: np.sinh(x * y), u)
+        left_side = lambda x: u(x) - lambd * find_scalar_product(lambda y: np.sinh(x * y), u)
         right_side = f
         left_side_val = np.array([left_side(xi) for xi in x])
-        return np.max(np.abs(left_side_val - f(x)))
+        return np.max(np.abs(left_side_val - right_side(x)))
 
     # Возвращаем приближенное решение u(x) и функцию для оценки невязки
     return u, loss(u)
