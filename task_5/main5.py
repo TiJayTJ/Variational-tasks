@@ -24,6 +24,9 @@ def solve_fou(coefs, x, t):
     return res
 
 
+print("Применение ДРФ для решения методом сеток однородного уравнения теплопроводности")
+print("Вариант 5")
+
 x_arr = np.linspace(0, 1, 6)
 t_arr = np.linspace(0, T, 6)
 
@@ -39,7 +42,7 @@ for t in t_arr:
             arr.append(solve_fou(find_coefs_fou(P), x, t))
     uf.append(arr)
 
-uf_table = pd.DataFrame(data = uf, index=t_arr, columns=x_arr)
+uf_table = pd.DataFrame(data=uf, index=t_arr, columns=x_arr)
 uf_table.columns.name = "t \\ x"
 print(uf_table)
 print()
@@ -49,7 +52,8 @@ print()
 
 
 # Вычисляем коэффициенты разложения методом конечных разностей
-# (используем сумму значений базисных функций phi(x), psi(x), взвешенных по координате x и масштабированных на шаг сетки h)
+# (используем сумму значений базисных функций phi(x), psi(x),
+#                           взвешенных по координате x и масштабированных на шаг сетки h)
 def find_coefs_discrete_fou(N):
     h = 1 / N
     coefs = []
@@ -155,4 +159,3 @@ error_grid_table = pd.DataFrame(data=result,
                                 columns=['(0.2, 0.02)', '(0.1, 0.005)', '(0.05, 0.00125)', '(0.05, 0.005)'])
 error_grid_table.columns.name = "(h, τ)"
 print(error_grid_table)
-

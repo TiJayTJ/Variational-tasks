@@ -11,6 +11,8 @@ from task_3.integral_equation_solving_methods import singular_kernel, mech_quad
 
 warnings.filterwarnings("ignore")
 
+print("Численное решение интегрального уравнения Фредгольма второго рода")
+print("Вариант 4")
 
 # Вычисляем ряд Тейлора для sh(xy) относительно y, начиная с y=0 и ограничиваемся N
 # Удаляем члены более высокого порядка и проделываем то же самое относительно x

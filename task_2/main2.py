@@ -10,6 +10,13 @@ from task_2.func_operations import find_energy_scalar_product, find_l2_scalar_pr
 from task_2.math_functions import p, q
 from task_2.fields import *
 
+print("Проблема собственных значений в задаче Штурма-Лиувилля")
+print("Вариант 4")
+
+
+# Вычисление собственного числа и вектора по формуле
+
+
 # Оценка функций p(x), q(x) (оцениваем диапазоны значений p(x) и q(x) на [x_0, x_1])
 x = np.linspace(x0, x1, 1000)
 
@@ -52,10 +59,10 @@ df_mm['lambda_2 невязки'] = [loss(2, p_min, q_min, x), loss(2, p_max, q_m
 print(df_mm)
 
 # Вычисляем собственные числа через "точные" собственные функции
-print(f'Первое собственное число {find_energy_scalar_product(eigen_vec(1), eigen_vec(1), 
+print(f'Первое точное собственное число {find_energy_scalar_product(eigen_vec(1), eigen_vec(1), 
                                                              deigen_vec(1), deigen_vec(1)) / 
                                   find_l2_scalar_product(eigen_vec(1), eigen_vec(1))}')
-print(f'Второе собственное число {find_energy_scalar_product(eigen_vec(2), eigen_vec(2),
+print(f'Второе точное собственное число {find_energy_scalar_product(eigen_vec(2), eigen_vec(2),
                                                              deigen_vec(2), deigen_vec(2)) / 
                                   find_l2_scalar_product(eigen_vec(2), eigen_vec(2))}')
 
@@ -63,7 +70,7 @@ print(f'Второе собственное число {find_energy_scalar_produ
 # Метод Ритца
 
 
-# Создаем матрицу Галеркина и вычисляем ее элементы
+# Создаем матрицу Грама и вычисляем ее элементы
 G_l = np.zeros((N, N))
 for i in range(N):
     for j in range(N):
@@ -92,7 +99,10 @@ plt.legend()
 plt.show()
 
 
-# Задаем min СЗ матрицы Галеркина и соответствующий СВ
+# Метод обратных итераций
+
+
+# Задаем min СЗ матрицы Грама и соответствующий СВ
 lambd, coefs = reverse_iterations_method(G_l)
 
 plt.plot(x, sum([coordinate_func(i)(x) * coefs[i] for i in range(N)]), label=f'Собственная функция')

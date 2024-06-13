@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 
 from task_4.math_functions import f
@@ -19,6 +18,8 @@ def surface_drawing(t, x, sol):
     plt.colorbar(surf)
     plt.show()
 
+
+print("Нестрационарные уравнения с одной пространственной переменной. Исследование устойчивости")
 
 # Явная схема
 
@@ -56,7 +57,7 @@ h = 1 / N
 tau = 1 / M
 c = 1.0
 
-if (c * tau / h <= 1):
+if c * tau / h <= 1:
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -105,7 +106,7 @@ h = a / N
 tau = T / K
 c = 1.0
 
-if (c * tau / h >= 1):
+if c * tau / h >= 1:
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -129,7 +130,7 @@ h = a / N
 tau = T / K
 c = 1.0
 
-if (c * tau / h >= 1):
+if c * tau / h >= 1:
     print("Устойчивая")
 else:
     print("Неустойчивая")
