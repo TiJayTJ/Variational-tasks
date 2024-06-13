@@ -1,82 +1,6 @@
-import numpy as np
 import matplotlib.pyplot as plt
 
-
-def u_0(x):
-    return x
-
-
-def f(x, t):
-    return 2
-
-
-def explicit_scheme(f, c, tau, h, n, k, x, t):
-    sol = np.zeros((k + 1, n + 1))
-    sol[0, :] = u_0(x)
-
-    for i in range(1, k + 1):
-        for j in range(1, n + 1):
-            sol[i, j] = sol[i - 1, j] + tau * (-c * (sol[i - 1, j] - sol[i - 1, j - 1]) / h + f(x[j], t[i - 1]))
-
-    return sol
-
-
-def pure_implicit_scheme(f, c, tau, h, n, k, x, t):
-    sol = np.zeros((k + 1, n + 1))
-    sol[0, :] = u_0(x)
-
-    diag = 1 + c * tau / h
-    off_diag = -c * tau / h
-
-    A = np.diag(diag * np.ones(n)) + np.diag(off_diag * np.ones(n - 1), k = -1)
-
-    for i in range(1, k + 1):
-        b = np.zeros(n + 1)
-        for j in range(1, n + 1):
-            b[j] = sol[i - 1, j] + tau * f(x[j], t[i - 1])
-
-        sol[i, 1 : ] = np.linalg.solve(A, b[1 : ])
-
-    return sol
-
-
-def implicit_scheme(f, c, tau, h, n, k, x, t):
-    sol = np.zeros((k + 1, n + 1))
-    sol[0, :] = u_0(x)
-
-    diag = 1 + c * tau / h
-    under_diag = -c * tau / h
-
-    A = np.diag(diag * np.ones(n)) + np.diag(under_diag * np.ones(n - 1), k=-1)
-
-    for i in range(1, k + 1):
-        b = np.zeros(n + 1)
-        for j in range(1, n + 1):
-            b[j] = sol[i - 1, j - 1] + tau * f(x[j], t[i - 1])
-
-        sol[i, 1:] = np.linalg.solve(A, b[1:])
-
-    return sol
-
-
-def symmetric_scheme(f, c, tau, h, n, k, x, t):
-    sol = np.zeros((k + 1, n + 1))
-    sol[0, :] = u_0(x)
-
-    diag = 2 + 2 * c * tau / h
-    under_diag = -c * tau / h
-
-    A = np.diag(diag * np.ones(n)) + np.diag(under_diag * np.ones(n - 1), k=-1) + np.diag(under_diag * np.ones(n - 1),
-                                                                                          k=1)
-
-    for i in range(1, k + 1):
-        b = np.zeros(n + 1)
-        for j in range(1, n + 1):
-            b[j] = 2 * sol[i - 1, j - 1] + 2 * tau * f((x[j] + h / 2), (t[i] + tau / 2))
-
-        sol[i, 1:] = np.linalg.solve(A, b[1:])
-
-    return sol
+from task_4.schemes import *
 
 
 def surface_drawing(t, x, sol):
@@ -102,7 +26,7 @@ N = M = 100
 h = tau = 1 / N
 c = 1.0
 
-if (c * tau / h <= 1):
+if c * tau / h <= 1:
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -124,7 +48,7 @@ h = 1 / N
 tau = 1 / M
 c = 1.0
 
-if (c * tau / h <= 1):
+if c * tau / h <= 1:
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -169,7 +93,7 @@ h = a / N
 tau = T / K
 c = 1.0
 
-if (c * tau / h >= 1):
+if c * tau / h >= 1:
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -192,7 +116,7 @@ h = a / N
 tau = T / K
 c = 1.0
 
-if (c * tau / h >= 1):
+if c * tau / h >= 1:
     print("Устойчивая")
 else:
     print("Неустойчивая")
@@ -224,5 +148,3 @@ sol = symmetric_scheme(f, c, tau, h, N, K, x, t)
 
 surface_drawing(t, x, sol)
 plt.plot(x, sol[100].T)
-
-

@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a91c092d-571e-47cb-b201-8ff92a042088" name="Changes" comment="task3">
-      <change afterPath="$PROJECT_DIR$/task_4/main4.py" afterDir="false" />
+    <list default="true" id="a91c092d-571e-47cb-b201-8ff92a042088" name="Changes" comment="task2 corrected">
+      <change afterPath="$PROJECT_DIR$/task_3/fields.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task_3/func_operations.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task_3/integral_equation_solving_methods.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task_4/math_functions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/task_4/schemes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/task_2/eigen_val_vec.py" beforeDir="false" afterPath="$PROJECT_DIR$/task_2/eigen_val_vec.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/task_2/main2.py" beforeDir="false" afterPath="$PROJECT_DIR$/task_2/main2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task_2/math_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/task_2/math_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task_3/main3.py" beforeDir="false" afterPath="$PROJECT_DIR$/task_3/main3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/task_4/main4.py" beforeDir="false" afterPath="$PROJECT_DIR$/task_4/main4.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +58,7 @@
       <recent name="D:\SPbGU\Вычи\6 семестр\variational_tasks\task_1" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main2">
+  <component name="RunManager" selected="Python.main3">
     <configuration name="main1" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="variational_tasks" />
       <option name="ENV_FILES" value="" />
@@ -121,8 +127,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main2" />
         <item itemvalue="Python.main3" />
+        <item itemvalue="Python.main2" />
       </list>
     </recent_temporary>
   </component>
@@ -166,7 +172,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718202637237</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="task2 corrected">
+      <option name="closed" value="true" />
+      <created>1718275143163</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1718275143163</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -184,6 +198,7 @@
     <MESSAGE value="task1" />
     <MESSAGE value="task2" />
     <MESSAGE value="task3" />
-    <option name="LAST_COMMIT_MESSAGE" value="task3" />
+    <MESSAGE value="task2 corrected" />
+    <option name="LAST_COMMIT_MESSAGE" value="task2 corrected" />
   </component>
 </project>

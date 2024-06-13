@@ -29,11 +29,11 @@ plt.show()
 
 
 # Вычисляем невязку между левой и правой частями уравнения для СФ
-def loss(i, pm, x):
+def loss(i, pm, qm, x):
     # Определяем левую часть уравнения для СФ
     left_side = lambda x: -k*deigen_vec(i)(x)-p(x)*ddeigen_vec(i)(x)+q(x)*eigen_vec(i)(x)
     # Определяем правую часть уравнения для СФ
-    right_side = lambda x: find_eigen_val(i, pm, pm) * eigen_vec(i)(x)
+    right_side = lambda x: find_eigen_val(i, pm, qm) * eigen_vec(i)(x)
     # Находим max абсолютное значение разности между левой и правой частями
     # Оцениваем, насколько близки эти части (чем меньше значение, тем ближе СФ к удовлетворяющей уравнению форме)
     return np.max(np.abs(right_side(x)-left_side(x)))
@@ -44,10 +44,10 @@ df_mm = pd.DataFrame()
 
 df_mm['p'] = ['min', 'max']
 df_mm['lambda_1 оценки'] = [find_eigen_val(1, p_min, q_min), find_eigen_val(1, p_max, q_max)]
-df_mm['lambda_1 невязки'] = [loss(1, p_min, q_min), loss(1, p_max, q_max)]
+df_mm['lambda_1 невязки'] = [loss(1, p_min, q_min, x), loss(1, p_max, q_max, x)]
 
 df_mm['lambda_2 оценки'] = [find_eigen_val(2, p_min, q_min), find_eigen_val(2, p_max, q_max)]
-df_mm['lambda_2 невязки'] = [loss(2, p_min, q_min), loss(2, p_max, q_max)]
+df_mm['lambda_2 невязки'] = [loss(2, p_min, q_min, x), loss(2, p_max, q_max, x)]
 
 print(df_mm)
 

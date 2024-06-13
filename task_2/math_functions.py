@@ -1,6 +1,3 @@
-import numpy as np
-from scipy.special import jacobi
-
 from task_2.fields import *
 
 
